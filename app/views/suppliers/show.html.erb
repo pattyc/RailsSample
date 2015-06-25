@@ -1,0 +1,36 @@
+<h2>
+  <%= @supplier.name %>
+</h2>
+
+<% @supplier.items.each do |item| %>
+  <p>
+    <strong><%= item.name %>: </strong>
+    <%= item.description %>
+    <%= link_to 'Delete', [item.supplier, item],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+  </p>
+<% end %>
+
+<h2>Add an item:</h2>
+<%= form_for([@supplier, @supplier.items.build]) do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+<h2>Import Items</h2>
+<%= form_tag "/suppliers/#{@supplier.id}/import", multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
+
+<%= link_to 'Back', suppliers_path%>
