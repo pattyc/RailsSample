@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150625031758) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "items", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150625031758) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "items", ["supplier_id"], name: "index_items_on_supplier_id"
+  add_index "items", ["supplier_id"], name: "index_items_on_supplier_id", using: :btree
 
   create_table "suppliers", force: :cascade do |t|
     t.string   "name"
@@ -29,4 +32,5 @@ ActiveRecord::Schema.define(version: 20150625031758) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "items", "suppliers"
 end
